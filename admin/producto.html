@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAVARA · Producto</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .producto-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 32px;
+      align-items: start;
+    }
+    .preview-card {
+      background: var(--marfil);
+      border: 1px solid var(--linea);
+      padding: 24px;
+      position: sticky;
+      top: 100px;
+    }
+    .preview-visual {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 12px;
+    }
+    .preview-nombre {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .preview-categoria {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: var(--dorado);
+      text-transform: uppercase;
+    }
+    .preview-precio {
+      font-size: 16px;
+      color: var(--tinta-suave);
+      margin-top: 6px;
+    }
+    .preview-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tinta-suave);
+      margin-bottom: 12px;
+    }
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--tinta-suave);
+      margin-bottom: 16px;
+    }
+    .breadcrumb a {
+      color: var(--tinta-suave);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      color: var(--dorado);
+    }
+    .breadcrumb span {
+      color: var(--tinta);
+    }
+    @media (max-width: 900px) {
+      .producto-layout { grid-template-columns: 1fr; }
+      .preview-card { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-dashboard">
+    <header class="admin-topbar">
+      <div class="admin-topbar-inner">
+        <span class="admin-topbar-brand">
+          <span class="logo-main small">SAVARA</span>
+          <span class="admin-topbar-label">Admin</span>
+        </span>
+        <div class="admin-topbar-actions">
+          <a href="/index.html" class="admin-link" target="_blank">Ver tienda</a>
+          <button class="admin-btn-logout" id="btn-logout">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="admin-tabs">
+      <a href="/admin/dashboard.html" class="admin-tab">Dashboard</a>
+      <a href="/admin/productos.html" class="admin-tab activo">Productos</a>
+      <a href="/admin/tienda.html" class="admin-tab">Tienda</a>
+    </nav>
+
+    <section class="admin-section">
+      <div class="breadcrumb" id="breadcrumb">
+        <a href="/admin/productos.html">Productos</a> &rsaquo; <span id="bc-actual">Nuevo Producto</span>
+      </div>
+
+      <div class="admin-section-head" style="padding-bottom:12px;">
+        <h2 id="form-titulo">Nuevo Producto</h2>
+      </div>
+
+      <div class="producto-layout">
+        <form id="form-producto" class="admin-form" style="max-width:100%;">
+          <input type="hidden" id="fp-id" />
+
+          <div class="admin-field">
+            <label for="fp-nombre">Nombre del producto</label>
+            <input type="text" id="fp-nombre" required />
+          </div>
+
+          <div class="admin-field">
+            <label for="fp-categoria">Categoría</label>
+            <select id="fp-categoria" required>
+              <option value="mujer">Mujer</option>
+              <option value="hombre">Hombre</option>
+              <option value="infantil">Infantil</option>
+              <option value="accesorios">Accesorios</option>
+            </select>
+          </div>
+
+          <div class="admin-field">
+            <label for="fp-descripcion">Descripción</label>
+            <textarea id="fp-descripcion" rows="3" required></textarea>
+          </div>
+
+          <div class="admin-field">
+            <label for="fp-precio">Precio ($)</label>
+            <input type="number" id="fp-precio" min="0" required />
+          </div>
+
+          <div class="admin-field">
+            <label for="fp-stock">Stock</label>
+            <select id="fp-stock" required>
+              <option value="alta">Disponible</option>
+              <option value="media">Pocas unidades</option>
+              <option value="baja">Agotado</option>
+            </select>
+          </div>
+
+          <div class="admin-field">
+            <label for="fp-imagen-id">ID de gradiente (opcional)</label>
+            <input type="text" id="fp-imagen-id" placeholder="ej: mujer-tacones" />
+          </div>
+
+          <div style="border-top:1px solid var(--linea);padding-top:16px;">
+            <h3 style="font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:12px;">Imagen del producto</h3>
+
+            <div class="admin-field" style="margin-bottom:12px;">
+              <label for="fp-imagen-file">Subir imagen</label>
+              <input type="file" id="fp-imagen-file" accept="image/*" />
+            </div>
+
+            <div class="admin-field" style="margin-bottom:12px;">
+              <label for="fp-imagen-url">O usar URL externa</label>
+              <input type="url" id="fp-imagen-url" placeholder="https://ejemplo.com/imagen.jpg" />
+            </div>
+
+            <div id="fp-imagen-preview"></div>
+          </div>
+
+          <div style="border-top:1px solid var(--linea);padding-top:16px;">
+            <h3 style="font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:12px;">Colores</h3>
+            <div id="fp-colores-container">
+              <div class="fp-color-row">
+                <input type="color" class="fp-color-hex" value="#1a1a1a" />
+                <input type="text" class="fp-color-nombre" placeholder="Nombre color" />
+                <button type="button" class="fp-remove-row" title="Quitar color">&times;</button>
+              </div>
+            </div>
+            <button type="button" class="btn-ghost" id="fp-add-color" style="margin-top:8px;">+ Agregar color</button>
+          </div>
+
+          <div style="border-top:1px solid var(--linea);padding-top:16px;">
+            <h3 style="font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:12px;">Tallas</h3>
+            <div id="fp-tallas-container">
+              <div class="fp-talla-row">
+                <input type="text" class="fp-talla-valor" placeholder="ej: 38" />
+                <button type="button" class="fp-remove-row" title="Quitar talla">&times;</button>
+              </div>
+            </div>
+            <button type="button" class="btn-ghost" id="fp-add-talla" style="margin-top:8px;">+ Agregar talla</button>
+          </div>
+
+          <div class="admin-form-actions" style="margin-top:24px;">
+            <a href="/admin/productos.html" class="btn-ghost">Cancelar</a>
+            <button type="submit" class="btn-primary" id="btn-guardar">GUARDAR PRODUCTO</button>
+          </div>
+        </form>
+
+        <div class="preview-card">
+          <div class="preview-label">Vista previa</div>
+          <div class="preview-visual" id="preview-visual" style="background:var(--hueso);"></div>
+          <div class="preview-categoria" id="preview-categoria">CATEGORÍA</div>
+          <div class="preview-nombre" id="preview-nombre">Nombre del producto</div>
+          <div class="preview-precio" id="preview-precio">$0</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast-admin" aria-live="polite"></div>
+
+  <script src="/js/data.js"></script>
+  <script src="/js/admin-common.js"></script>
+  <script src="/js/admin-producto.js"></script>
+</body>
+</html>

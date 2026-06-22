@@ -1,0 +1,123 @@
+/* ==========================================================================
+   SAVARA · Página de producto individual
+   ========================================================================== */
+
+.producto-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--marfil);
+  border-bottom: 1px solid var(--linea);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 40px;
+}
+
+.producto-logo {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.producto-back {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--tinta-suave);
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.producto-back:hover {
+  color: var(--dorado);
+}
+
+.producto-page {
+  padding: 60px 40px 80px;
+}
+
+.producto-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.producto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.producto-visual {
+  aspect-ratio: 3 / 4;
+  background: var(--hueso);
+  position: sticky;
+  top: 90px;
+}
+
+.producto-detalle {
+  padding: 0;
+}
+
+.producto-detalle .modal-nombre {
+  font-size: 42px;
+}
+
+.producto-detalle .modal-descripcion {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.producto-detalle .modal-precio {
+  font-size: 34px;
+}
+
+@media (max-width: 900px) {
+  .producto-topbar {
+    padding: 12px 20px;
+  }
+
+  .producto-page {
+    padding: 0 0 60px;
+  }
+
+  .producto-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .producto-visual {
+    aspect-ratio: 16 / 9;
+    position: static;
+    max-height: 45vh;
+  }
+
+  .producto-detalle {
+    padding: 36px 24px 32px;
+  }
+
+  .producto-detalle .modal-nombre {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 540px) {
+  .producto-visual {
+    aspect-ratio: 4 / 3;
+    max-height: 40vh;
+  }
+}
+
+.producto-footer {
+  border-top: 1px solid var(--linea);
+  padding: 24px 40px;
+  margin-top: 20px;
+}
+.producto-footer-inner { max-width: var(--max); margin: 0 auto; }
+.producto-footer-social { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+.producto-footer-label { font-size: 11px; letter-spacing: 0.2em; font-weight: 600; color: var(--tinta); }
+.pf-link { font-size: 13px; color: var(--tinta-suave); text-decoration: none; transition: color .2s ease; }
+.pf-link:hover { color: var(--dorado); }

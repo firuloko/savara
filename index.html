@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAVARA · Calzado y Accesorios Low-Cost</title>
+  <meta name="description" content="SAVARA — Mostrario digital de calzado y accesorios. Consulta disponibilidad en nuestra tienda física." />
+
+  <!-- Tipografías: serif elegante (Cormorant) + sans limpia (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <style id="theme-vars"></style>
+</head>
+<body>
+
+  <!-- ============================ HEADER ============================ -->
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <!-- Menú izquierdo (desktop) -->
+      <nav class="nav nav-left" aria-label="Navegación principal">
+        <button class="nav-link" data-categoria="mujer">MUJER</button>
+        <button class="nav-link" data-categoria="hombre">HOMBRE</button>
+      </nav>
+
+      <!-- Logo central -->
+      <a href="#" class="logo" id="logo">
+        <span class="logo-main">SAVARA</span>
+        <span class="logo-sub">CALZADO &amp; ACCESORIOS</span>
+      </a>
+
+      <!-- Menú derecho (desktop) -->
+      <nav class="nav nav-right" aria-label="Navegación principal">
+        <button class="nav-link" data-categoria="infantil">INFANTIL</button>
+        <button class="nav-link" data-categoria="accesorios">ACCESORIOS</button>
+      </nav>
+    </div>
+
+    <!-- Menú móvil -->
+    <nav class="nav-mobile" aria-label="Navegación móvil">
+      <button class="nav-link" data-categoria="mujer">MUJER</button>
+      <button class="nav-link" data-categoria="hombre">HOMBRE</button>
+      <button class="nav-link" data-categoria="infantil">INFANTIL</button>
+      <button class="nav-link" data-categoria="accesorios">ACCESORIOS</button>
+    </nav>
+
+    <div class="header-line"></div>
+  </header>
+
+  <!-- ============================= HERO ============================= -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow" id="hero-eyebrow">Nueva Colección · 2026</p>
+      <h1 class="hero-title" id="hero-title">Elegancia que cabe<br />en tu presupuesto</h1>
+      <p class="hero-subtitle" id="hero-subtitle">Un mostrario digital para descubrir tu próximo par favorito.
+        Explora la colección y reserva tu retiro en tienda.</p>
+      <button class="btn-primary" id="hero-cta">VER CATÁLOGO</button>
+    </div>
+    <div class="hero-note" id="hero-nota">Mostrario digital · Las compras se realizan presencialmente en tienda</div>
+  </section>
+
+  <!-- ========================= CATEGORÍAS ========================== -->
+  <section class="categorias" id="categorias">
+    <div class="section-head">
+      <span class="section-eyebrow">EXPLORAR</span>
+      <h2 class="section-title">Nuestras Colecciones</h2>
+      <div class="section-divider"><span></span></div>
+    </div>
+
+    <div class="cat-grid">
+      <button class="cat-card" data-categoria="mujer">
+        <div class="cat-card-img cat-mujer"></div>
+        <div class="cat-card-label">
+          <h3>MUJER</h3>
+          <span>Descubrir →</span>
+        </div>
+      </button>
+      <button class="cat-card" data-categoria="hombre">
+        <div class="cat-card-img cat-hombre"></div>
+        <div class="cat-card-label">
+          <h3>HOMBRE</h3>
+          <span>Descubrir →</span>
+        </div>
+      </button>
+      <button class="cat-card" data-categoria="infantil">
+        <div class="cat-card-img cat-infantil"></div>
+        <div class="cat-card-label">
+          <h3>INFANTIL</h3>
+          <span>Descubrir →</span>
+        </div>
+      </button>
+      <button class="cat-card" data-categoria="accesorios">
+        <div class="cat-card-img cat-accesorios"></div>
+        <div class="cat-card-label">
+          <h3>ACCESORIOS</h3>
+          <span>Descubrir →</span>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== GRID DE PRODUCTOS ======================= -->
+  <section class="catalogo" id="catalogo">
+    <div class="catalogo-head">
+      <div>
+        <span class="section-eyebrow" id="cat-eyebrow">CATÁLOGO</span>
+        <h2 class="section-title" id="cat-titulo">Todos los productos</h2>
+      </div>
+      <button class="btn-ghost" id="btn-ver-todo">VER TODO</button>
+    </div>
+
+    <div class="grid-productos" id="grid-productos">
+      <!-- Las tarjetas se inyectan desde app.js -->
+    </div>
+
+    <p class="catalogo-empty" id="catalogo-empty" hidden>No hay productos en esta sección.</p>
+  </section>
+
+  <!-- ========================= INFO TIENDA ========================= -->
+  <section class="info-tienda">
+    <div class="info-tienda-inner">
+      <div class="info-tienda-texto">
+        <span class="section-eyebrow">TIENDA FÍSICA</span>
+        <h2 class="section-title" id="about-titulo">Te esperamos en SAVARA</h2>
+        <p id="about-texto">Todos los productos de este mostrario están disponibles para compra presencial.
+          Reserva tu talla por mensaje y retírala cuando quieras.</p>
+        <ul class="tienda-datos">
+          <li><strong>Dirección:</strong> <span id="t-direccion"></span></li>
+          <li><strong>Horario:</strong> <span id="t-horario"></span></li>
+          <li><strong>Teléfono:</strong> <span id="t-telefono"></span></li>
+        </ul>
+      </div>
+      <div class="info-tienda-sello">
+        <div class="sello-circulo">
+          <span class="sello-num">100%</span>
+          <span class="sello-txt">COMPRA<br />PRESENCIAL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER =========================== -->
+  <footer class="site-footer">
+    <div class="footer-line"></div>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-main small">SAVARA</span>
+        <p id="footer-desc">Calzado y accesorios low-cost.<br />Mostrario digital · Sin ventas en línea.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>COLECCIONES</h4>
+          <button class="footer-link" data-categoria="mujer">Mujer</button>
+          <button class="footer-link" data-categoria="hombre">Hombre</button>
+          <button class="footer-link" data-categoria="infantil">Infantil</button>
+          <button class="footer-link" data-categoria="accesorios">Accesorios</button>
+        </div>
+        <div>
+          <h4>TIENDA</h4>
+          <p id="f-direccion"></p>
+          <p id="f-horario"></p>
+        </div>
+        <div>
+          <h4>SÍGUENOS</h4>
+          <a class="footer-link-social" id="fs-instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+          <a class="footer-link-social" id="fs-facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+          <a class="footer-link-social" id="fs-tiktok" href="#" target="_blank" rel="noopener">TikTok</a>
+          <a class="footer-link-social" id="fs-whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-admin-link">
+        <a href="/admin/login.html" class="admin-access">Panel Admin</a>
+      </div>
+      <span id="footer-copyright">© 2026 SAVARA · Prototipo de mostrario digital</span>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

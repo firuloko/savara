@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAVARA · Productos</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+  <style>
+    .productos-toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .productos-toolbar input {
+      flex: 1;
+      min-width: 200px;
+      font-family: var(--sans);
+      font-size: 14px;
+      padding: 10px 14px;
+      border: 1px solid var(--linea);
+      background: var(--marfil);
+      color: var(--tinta);
+    }
+    .productos-toolbar input:focus {
+      outline: none;
+      border-color: var(--dorado);
+    }
+    .productos-toolbar .btn-ghost {
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-dashboard">
+    <header class="admin-topbar">
+      <div class="admin-topbar-inner">
+        <span class="admin-topbar-brand">
+          <span class="logo-main small">SAVARA</span>
+          <span class="admin-topbar-label">Admin</span>
+        </span>
+        <div class="admin-topbar-actions">
+          <a href="/index.html" class="admin-link" target="_blank">Ver tienda</a>
+          <button class="admin-btn-logout" id="btn-logout">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="admin-tabs">
+      <a href="/admin/dashboard.html" class="admin-tab">Dashboard</a>
+      <a href="/admin/productos.html" class="admin-tab activo">Productos</a>
+      <a href="/admin/tienda.html" class="admin-tab">Tienda</a>
+    </nav>
+
+    <section class="admin-section">
+      <div class="admin-section-head">
+        <h2>Gestión de Productos</h2>
+        <a href="/admin/producto.html" class="btn-primary">+ AGREGAR PRODUCTO</a>
+      </div>
+
+      <div class="productos-toolbar">
+        <input type="text" id="buscar-producto" placeholder="Buscar por nombre o ID..." />
+        <button class="btn-ghost" id="btn-exportar">EXPORTAR JSON</button>
+        <button class="btn-ghost" id="btn-importar">IMPORTAR JSON</button>
+        <input type="file" id="file-importar" accept=".json" style="display:none" />
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="tabla-productos">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Colores</th>
+              <th>Tallas</th>
+              <th class="col-acciones">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-productos"></tbody>
+        </table>
+      </div>
+      <p class="admin-empty" id="empty-productos" hidden>No hay productos. Agrega el primero.</p>
+    </section>
+  </div>
+
+  <div class="toast" id="toast-admin" aria-live="polite"></div>
+
+  <div class="modal-overlay" id="confirm-modal" aria-hidden="true">
+    <div class="modal-card" style="max-width:420px;" role="dialog" aria-modal="true">
+      <div class="modal-detalle" style="padding:40px 36px;text-align:center;">
+        <h3 id="confirm-titulo" style="font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:12px;">Confirmar</h3>
+        <p id="confirm-mensaje" style="color:var(--tinta-suave);margin-bottom:24px;">¿Estás seguro?</p>
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <button class="btn-ghost" data-confirm="cancelar">Cancelar</button>
+          <button class="btn-primary" data-confirm="aceptar">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/data.js"></script>
+  <script src="/js/admin-common.js"></script>
+  <script src="/js/admin-productos.js"></script>
+</body>
+</html>

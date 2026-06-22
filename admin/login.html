@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAVARA · Admin Login</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+
+  <section class="admin-login" id="admin-login">
+    <div class="admin-login-card">
+      <div class="admin-login-logo">
+        <span class="logo-main">SAVARA</span>
+        <span class="logo-sub">PANEL DE ADMINISTRACIÓN</span>
+      </div>
+
+      <form id="login-form" class="admin-login-form">
+        <div class="admin-field">
+          <label for="login-user">Usuario</label>
+          <input type="text" id="login-user" autocomplete="username" required />
+        </div>
+        <div class="admin-field">
+          <label for="login-pass">Contraseña</label>
+          <input type="password" id="login-pass" autocomplete="current-password" required />
+        </div>
+        <p class="admin-login-error" id="login-error" hidden>Usuario o contraseña incorrectos</p>
+        <button type="submit" class="btn-primary full">INGRESAR</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="/js/data.js"></script>
+  <script src="/js/admin-login.js"></script>
+</body>
+</html>
