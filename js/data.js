@@ -186,6 +186,10 @@ async function cargarActividad() {
 /* ====================================================================
    HELPERS (sin cambios)
    ==================================================================== */
+function escapeHTML(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 function productoPorId(id) {
   return PRODUCTOS.find(p => p.id === id);
 }

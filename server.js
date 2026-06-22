@@ -11,6 +11,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const sharp = require('sharp');
+const rateLimit = require('express-rate-limit');
 const initSqlJs = require('sql.js');
 
 const app = express();
@@ -22,7 +23,7 @@ const DB_PATH = path.join(DATA_DIR, 'savara.db');
 /* --------------------------------------------------------------------------
    MIDDLEWARE
    -------------------------------------------------------------------------- */
-app.use(cors());
+app.use(cors({ origin: process.env.CORS_ORIGIN || false }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(DATA_DIR, 'uploads')));
 
@@ -210,10 +211,19 @@ function authMiddleware(req, res, next) {
   }
 }
 
+/* --------------------------------------------------------------------------
+   Rate limiter para login
+   -------------------------------------------------------------------------- */
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { error: 'Demasiados intentos. Espera 15 minutos.' }
+});
+
 /* ==========================================================================
    RUTAS · AUTH
    ========================================================================== */
-app.post('/api/auth/login', (req, res) => {
+app.post('/api/auth/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: 'Usuario y contraseña requeridos' });
@@ -224,6 +234,24 @@ app.post('/api/auth/login', (req, res) => {
   }
   const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '24h' });
   res.json({ token, username: user.username });
+});
+
+app.put('/api/auth/password', authMiddleware, (req, res) => {
+  const { current, newpass } = req.body;
+  if (!current || !newpass) {
+    return res.status(400).json({ error: 'Contraseña actual y nueva son requeridas' });
+  }
+  if (newpass.length < 6) {
+    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 6 caracteres' });
+  }
+  const user = queryOne('SELECT * FROM usuarios WHERE id = ?', [req.user.id]);
+  if (!user || !bcrypt.compareSync(current, user.password_hash)) {
+    return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+  }
+  const hash = bcrypt.hashSync(newpass, 10);
+  run('UPDATE usuarios SET password_hash = ? WHERE id = ?', [hash, req.user.id]);
+  logActividad('password_cambiado', `Usuario ${user.username}`);
+  res.json({ ok: true });
 });
 
 /* ==========================================================================
@@ -423,6 +451,13 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
 app.get('/api/actividad', authMiddleware, (req, res) => {
   const rows = query('SELECT * FROM actividad ORDER BY fecha DESC LIMIT 30');
   res.json(rows);
+});
+
+/* ==========================================================================
+   RUTAS · HEALTH
+   ========================================================================== */
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime() });
 });
 
 /* ==========================================================================

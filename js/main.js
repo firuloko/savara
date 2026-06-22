@@ -132,7 +132,7 @@
 
     /* Hero */
     if (PAGINA.hero_eyebrow)  $("#hero-eyebrow").textContent = PAGINA.hero_eyebrow;
-    if (PAGINA.hero_titulo)   $("#hero-title").innerHTML = PAGINA.hero_titulo.replace(/\n/g, "<br />");
+    if (PAGINA.hero_titulo)   $("#hero-title").innerHTML = escapeHTML(PAGINA.hero_titulo).replace(/\n/g, "<br />");
     if (PAGINA.hero_subtitulo) $("#hero-subtitle").textContent = PAGINA.hero_subtitulo;
     if (PAGINA.hero_cta)      $("#hero-cta").textContent = PAGINA.hero_cta;
     if (PAGINA.hero_nota)     $("#hero-nota").textContent = PAGINA.hero_nota;
@@ -142,7 +142,7 @@
     if (PAGINA.seccion_about_texto)  $("#about-texto").textContent = PAGINA.seccion_about_texto;
 
     /* Footer */
-    if (PAGINA.footer_desc)      $("#footer-desc").innerHTML = PAGINA.footer_desc.replace(/\n/g, "<br />");
+    if (PAGINA.footer_desc)      $("#footer-desc").innerHTML = escapeHTML(PAGINA.footer_desc).replace(/\n/g, "<br />");
     if (PAGINA.footer_copyright) $("#footer-copyright").textContent = PAGINA.footer_copyright;
 
     /* ---- Tienda info ---- */
