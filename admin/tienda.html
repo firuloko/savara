@@ -11,20 +11,6 @@
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/admin.css" />
   <style>
-    .config-section {
-      border: 1px solid var(--linea);
-      background: #fff;
-      padding: 32px 36px;
-      margin-bottom: 28px;
-    }
-    .config-section h3 {
-      font-family: var(--serif);
-      font-size: 24px;
-      font-weight: 500;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--hueso);
-    }
     .color-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -77,46 +63,55 @@
         <h2>Configuración</h2>
       </div>
 
-      <!-- ========= SECCIÓN 1: TIENDA ========= -->
-      <div class="config-section">
-        <h3>Información de la Tienda</h3>
-        <form id="form-tienda" class="admin-form" style="max-width:100%;border:none;padding:0;">
-          <div class="admin-field">
-            <label for="tienda-nombre">Nombre de tienda</label>
-            <input type="text" id="tienda-nombre" required />
+      <!-- Card: Información de la Tienda -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3>Información de la Tienda</h3>
+        </div>
+        <form id="form-tienda" class="admin-form">
+          <div class="admin-form-grid">
+            <div class="admin-field">
+              <label for="tienda-nombre">Nombre de tienda</label>
+              <input type="text" id="tienda-nombre" required />
+            </div>
+            <div class="admin-field">
+              <label for="tienda-direccion">Dirección</label>
+              <input type="text" id="tienda-direccion" required />
+            </div>
+            <div class="admin-field">
+              <label for="tienda-horario">Horario</label>
+              <input type="text" id="tienda-horario" required />
+            </div>
+            <div class="admin-field">
+              <label for="tienda-telefono">Teléfono</label>
+              <input type="text" id="tienda-telefono" required />
+            </div>
           </div>
-          <div class="admin-field">
-            <label for="tienda-direccion">Dirección</label>
-            <input type="text" id="tienda-direccion" required />
-          </div>
-          <div class="admin-field">
-            <label for="tienda-horario">Horario</label>
-            <input type="text" id="tienda-horario" required />
-          </div>
-          <div class="admin-field">
-            <label for="tienda-telefono">Teléfono</label>
-            <input type="text" id="tienda-telefono" required />
-          </div>
-          <div class="admin-form-actions" style="padding:0;">
+          <div class="admin-form-actions">
             <button type="submit" class="btn-primary">GUARDAR TIENDA</button>
           </div>
         </form>
       </div>
 
-      <!-- ========= SECCIÓN 2: PÁGINA PRINCIPAL ========= -->
-      <div class="config-section">
-        <h3>Página Principal</h3>
-        <div style="display:grid;gap:20px;max-width:640px;">
+      <!-- Card: Página Principal -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3>Página Principal</h3>
+        </div>
+        <div class="admin-form-grid">
           <div class="admin-field">
             <label for="p-hero-eyebrow">Hero — Eyebrow</label>
+            <span class="field-hint">Texto pequeño sobre el título principal.</span>
             <input type="text" id="p-hero-eyebrow" />
           </div>
           <div class="admin-field">
             <label for="p-hero-titulo">Hero — Título</label>
+            <span class="field-hint">El título grande de la portada.</span>
             <input type="text" id="p-hero-titulo" />
           </div>
-          <div class="admin-field">
+          <div class="admin-field full">
             <label for="p-hero-subtitulo">Hero — Subtítulo</label>
+            <span class="field-hint">Descripción breve debajo del título.</span>
             <textarea id="p-hero-subtitulo" rows="2"></textarea>
           </div>
           <div class="admin-field">
@@ -127,16 +122,20 @@
             <label for="p-hero-nota">Hero — Nota inferior</label>
             <input type="text" id="p-hero-nota" />
           </div>
-          <hr style="border:none;border-top:1px solid var(--hueso);margin:4px 0;" />
-          <div class="admin-field">
+        </div>
+        <div style="border-top:1px solid var(--hueso);margin:20px 0 16px;"></div>
+        <div class="admin-form-grid">
+          <div class="admin-field full">
             <label for="p-seccion-titulo">Sección Tienda — Título</label>
             <input type="text" id="p-seccion-titulo" />
           </div>
-          <div class="admin-field">
+          <div class="admin-field full">
             <label for="p-seccion-texto">Sección Tienda — Texto</label>
             <textarea id="p-seccion-texto" rows="2"></textarea>
           </div>
-          <hr style="border:none;border-top:1px solid var(--hueso);margin:4px 0;" />
+        </div>
+        <div style="border-top:1px solid var(--hueso);margin:20px 0 16px;"></div>
+        <div class="admin-form-grid">
           <div class="admin-field">
             <label for="p-footer-desc">Footer — Descripción</label>
             <input type="text" id="p-footer-desc" />
@@ -145,16 +144,55 @@
             <label for="p-footer-copyright">Footer — Copyright</label>
             <input type="text" id="p-footer-copyright" />
           </div>
-          <div class="admin-form-actions" style="padding:0;">
-            <button class="btn-primary" id="btn-guardar-pagina">GUARDAR PÁGINA</button>
-          </div>
+        </div>
+        <div class="admin-form-actions">
+          <button class="btn-primary" id="btn-guardar-pagina">GUARDAR PÁGINA</button>
         </div>
       </div>
 
-      <!-- ========= SECCIÓN 3: COLORES ========= -->
-      <div class="config-section">
-        <h3>Colores del Tema</h3>
-        <p style="color:var(--tinta-suave);font-size:13px;margin-bottom:20px;">Los cambios se aplican en vivo en la tienda al recargar la página.</p>
+      <!-- Card: Frases Editoriales -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3>Frases Editoriales por Sección</h3>
+        </div>
+        <p style="font-size:12px;color:var(--tinta-suave);margin-bottom:16px;">
+          Estas frases aparecen en la portada de cada capítulo de la revista.
+        </p>
+        <div class="admin-form-grid">
+          <div class="admin-field">
+            <label for="frase-mujer">Mujeres</label>
+            <textarea id="frase-mujer" rows="2" placeholder="Frase para la sección Mujeres"></textarea>
+          </div>
+          <div class="admin-field">
+            <label for="frase-hombre">Hombres</label>
+            <textarea id="frase-hombre" rows="2" placeholder="Frase para la sección Hombres"></textarea>
+          </div>
+          <div class="admin-field">
+            <label for="frase-nino">Niño</label>
+            <textarea id="frase-nino" rows="2" placeholder="Frase para la sección Niño"></textarea>
+          </div>
+          <div class="admin-field">
+            <label for="frase-nina">Niña</label>
+            <textarea id="frase-nina" rows="2" placeholder="Frase para la sección Niña"></textarea>
+          </div>
+          <div class="admin-field full">
+            <label for="frase-accesorios">Accesorios</label>
+            <textarea id="frase-accesorios" rows="2" placeholder="Frase para la sección Accesorios"></textarea>
+          </div>
+        </div>
+        <div class="admin-form-actions">
+          <button class="btn-primary" id="btn-guardar-frases">GUARDAR FRASES</button>
+        </div>
+      </div>
+
+      <!-- Card: Colores del Tema -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3>Colores del Tema</h3>
+        </div>
+        <p style="font-size:12px;color:var(--tinta-suave);margin-bottom:16px;">
+          Los cambios se aplican en vivo en la tienda al recargar la página.
+        </p>
         <div class="color-grid" id="color-grid">
           <div class="color-item">
             <label>Dorado (acento)</label>
@@ -185,34 +223,40 @@
             <input type="color" class="p-color" data-clave="color_linea" />
           </div>
         </div>
-        <div class="admin-form-actions" style="padding:0;margin-top:20px;">
+        <div class="admin-form-actions" style="margin-top:20px;">
           <button class="btn-primary" id="btn-guardar-colores">GUARDAR COLORES</button>
         </div>
       </div>
 
-      <!-- ========= SECCIÓN 4: REDES SOCIALES ========= -->
-      <div class="config-section">
-        <h3>Redes Sociales</h3>
-        <div style="display:grid;gap:20px;max-width:480px;">
+      <!-- Card: Redes Sociales -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3>Redes Sociales</h3>
+        </div>
+        <div class="admin-form-grid">
           <div class="admin-field">
             <label for="rs-instagram">Instagram (URL completa)</label>
+            <span class="field-hint">https://instagram.com/tucuenta</span>
             <input type="text" id="rs-instagram" placeholder="https://instagram.com/savara" />
           </div>
           <div class="admin-field">
             <label for="rs-facebook">Facebook (URL completa)</label>
+            <span class="field-hint">https://facebook.com/tupagina</span>
             <input type="text" id="rs-facebook" placeholder="https://facebook.com/savara" />
           </div>
           <div class="admin-field">
             <label for="rs-tiktok">TikTok (URL completa)</label>
+            <span class="field-hint">https://tiktok.com/@tucuenta</span>
             <input type="text" id="rs-tiktok" placeholder="https://tiktok.com/@savara" />
           </div>
           <div class="admin-field">
             <label for="rs-whatsapp">WhatsApp (URL completa)</label>
+            <span class="field-hint">https://wa.me/56912345678</span>
             <input type="text" id="rs-whatsapp" placeholder="https://wa.me/56912345678" />
           </div>
-          <div class="admin-form-actions" style="padding:0;">
-            <button class="btn-primary" id="btn-guardar-redes">GUARDAR REDES</button>
-          </div>
+        </div>
+        <div class="admin-form-actions">
+          <button class="btn-primary" id="btn-guardar-redes">GUARDAR REDES</button>
         </div>
       </div>
     </section>

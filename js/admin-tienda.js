@@ -16,12 +16,14 @@
 
     cargarFormTienda();
     cargarFormPagina();
+    cargarFormFrases();
     cargarFormColores();
     cargarFormRedes();
 
     $("#btn-logout").addEventListener("click", logout);
     $("#form-tienda").addEventListener("submit", guardarTienda);
     $("#btn-guardar-pagina").addEventListener("click", guardarPagina);
+    $("#btn-guardar-frases").addEventListener("click", guardarFrases);
     $("#btn-guardar-colores").addEventListener("click", guardarColores);
     $("#btn-guardar-redes").addEventListener("click", guardarRedes);
   }
@@ -83,6 +85,31 @@
     try {
       await actualizarPagina(data);
       mostrarToast("Página principal actualizada");
+    } catch (e) {
+      mostrarToast("Error al guardar: " + e.message, false);
+    }
+    btnLoading(btn, false);
+  }
+
+  /* ---- Frases Editoriales ---- */
+  function cargarFormFrases() {
+    CATEGORIAS_CONFIG.forEach(c => {
+      const el = $(`#frase-${c.id}`);
+      if (el) el.value = PAGINA[`frase_${c.id}`] || "";
+    });
+  }
+
+  async function guardarFrases() {
+    const btn = $("#btn-guardar-frases");
+    btnLoading(btn, true);
+    const data = {};
+    CATEGORIAS_CONFIG.forEach(c => {
+      const el = $(`#frase-${c.id}`);
+      if (el) data[`frase_${c.id}`] = el.value.trim();
+    });
+    try {
+      await actualizarPagina(data);
+      mostrarToast("Frases editoriales actualizadas");
     } catch (e) {
       mostrarToast("Error al guardar: " + e.message, false);
     }

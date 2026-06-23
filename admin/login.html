@@ -16,7 +16,7 @@
 <body>
 
   <section class="admin-login" id="admin-login">
-    <div class="admin-login-card">
+    <div class="admin-login-card" id="login-card">
       <div class="admin-login-logo">
         <span class="logo-main">SAVARA</span>
         <span class="logo-sub">PANEL DE ADMINISTRACIÓN</span>
@@ -25,15 +25,22 @@
       <form id="login-form" class="admin-login-form">
         <div class="admin-field">
           <label for="login-user">Usuario</label>
-          <input type="text" id="login-user" autocomplete="username" required />
+          <input type="text" id="login-user" autocomplete="username" required autofocus />
         </div>
         <div class="admin-field">
           <label for="login-pass">Contraseña</label>
-          <input type="password" id="login-pass" autocomplete="current-password" required />
+          <div class="input-wrap">
+            <input type="password" id="login-pass" autocomplete="current-password" required />
+            <button type="button" class="pass-toggle" id="toggle-pass" title="Mostrar contraseña" tabindex="-1">👁</button>
+          </div>
         </div>
-        <p class="admin-login-error" id="login-error" hidden>Usuario o contraseña incorrectos</p>
-        <button type="submit" class="btn-primary full">INGRESAR</button>
+        <p class="admin-login-error" id="login-error" hidden>✕ Usuario o contraseña incorrectos</p>
+        <button type="submit" class="btn-primary full" id="btn-ingresar">INGRESAR</button>
       </form>
+
+      <p style="margin-top:24px;font-size:11px;color:var(--tinta-suave);letter-spacing:0.05em;">
+        <a href="/" style="color:var(--tinta-suave);" target="_blank">Volver a la tienda →</a>
+      </p>
     </div>
   </section>
 

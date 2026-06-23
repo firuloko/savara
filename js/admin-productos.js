@@ -1,57 +1,36 @@
 /* ==========================================================================
-   SAVARA · Productos — listado con búsqueda, duplicar, exportar, importar
+   SAVARA · Productos — listado con búsqueda, filtro, duplicar, exportar, importar
    ========================================================================== */
 (function () {
   "use strict";
 
-  let filtro = "";
-
-  async function init() {
-    if (!checkAuth()) return;
-
-    try {
-      await cargarDatos();
-    } catch (e) {
-      mostrarToast("Error al cargar datos: " + e.message, false);
-      return;
-    }
-
-    renderTabla();
-
-    $("#btn-logout").addEventListener("click", logout);
-
-    /* Búsqueda en vivo */
-    $("#buscar-producto").addEventListener("input", (e) => {
-      filtro = e.target.value.toLowerCase().trim();
-      renderTabla();
-    });
-
-    /* Exportar */
-    $("#btn-exportar").addEventListener("click", exportarProductosHandler);
-
-    /* Importar */
-    $("#btn-importar").addEventListener("click", () => $("#file-importar").click());
-    $("#file-importar").addEventListener("change", importarProductosHandler);
-  }
+  let filtroTexto = "";
+  let filtroCategoria = "";
 
   function renderTabla() {
     const tbody = $("#tbody-productos");
     const empty = $("#empty-productos");
+    const summary = $("#table-summary");
 
-    const lista = filtro
-      ? PRODUCTOS.filter(p =>
-          p.id.toLowerCase().includes(filtro) ||
-          p.nombre.toLowerCase().includes(filtro) ||
-          (ETIQUETAS[p.categoria]?.sing || "").toLowerCase().includes(filtro)
-        )
-      : PRODUCTOS;
+    const lista = PRODUCTOS.filter(p => {
+      const matchTexto = !filtroTexto ||
+        p.id.toLowerCase().includes(filtroTexto) ||
+        p.nombre.toLowerCase().includes(filtroTexto) ||
+        (ETIQUETAS[p.categoria]?.sing || "").toLowerCase().includes(filtroTexto);
+      const matchCategoria = !filtroCategoria || p.categoria === filtroCategoria;
+      return matchTexto && matchCategoria;
+    });
 
     if (lista.length === 0) {
       tbody.innerHTML = "";
       empty.hidden = false;
+      summary.textContent = PRODUCTOS.length === 0
+        ? "No hay productos aún."
+        : `No se encontraron productos con esos filtros.`;
       return;
     }
     empty.hidden = true;
+    summary.textContent = `Mostrando ${lista.length} de ${PRODUCTOS.length} productos`;
 
     tbody.innerHTML = lista.map(p => {
       const stockInfo = STOCK_INFO[p.stock];
@@ -59,9 +38,15 @@
         `<span style="background:${c.hex}" title="${c.nombre}"></span>`
       ).join("");
       const tallasHTML = p.tallas.join(", ");
+      const thumbStyle = p.imagen_url
+        ? `background-image:url(${p.imagen_url})`
+        : `background:var(--hueso)`;
 
       return `
         <tr>
+          <td class="thumb-td">
+            <div class="admin-thumb" style="${thumbStyle};"></div>
+          </td>
           <td>${p.id}</td>
           <td><strong>${p.nombre}</strong></td>
           <td>${ETIQUETAS[p.categoria]?.sing || p.categoria}</td>
@@ -85,6 +70,16 @@
     $$(".admin-btn-sm.duplicar", tbody).forEach(btn =>
       btn.addEventListener("click", () => duplicarProductoHandler(btn.dataset.id))
     );
+  }
+
+  function poblarFiltroCategoria() {
+    const select = $("#filtro-categoria");
+    CATEGORIAS_CONFIG.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c.id;
+      opt.textContent = c.labels;
+      select.appendChild(opt);
+    });
   }
 
   async function eliminarProducto(id) {
@@ -145,6 +140,36 @@
       mostrarToast("Error al importar: " + err.message, false);
     }
     e.target.value = "";
+  }
+
+  async function init() {
+    if (!checkAuth()) return;
+
+    try {
+      await cargarDatos();
+    } catch (e) {
+      mostrarToast("Error al cargar datos: " + e.message, false);
+      return;
+    }
+
+    poblarFiltroCategoria();
+    renderTabla();
+
+    $("#btn-logout").addEventListener("click", logout);
+
+    $("#buscar-producto").addEventListener("input", (e) => {
+      filtroTexto = e.target.value.toLowerCase().trim();
+      renderTabla();
+    });
+
+    $("#filtro-categoria").addEventListener("change", (e) => {
+      filtroCategoria = e.target.value;
+      renderTabla();
+    });
+
+    $("#btn-exportar").addEventListener("click", exportarProductosHandler);
+    $("#btn-importar").addEventListener("click", () => $("#file-importar").click());
+    $("#file-importar").addEventListener("change", importarProductosHandler);
   }
 
   document.addEventListener("DOMContentLoaded", init);

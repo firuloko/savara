@@ -11,11 +11,12 @@ let toastTimer = null;
 function mostrarToast(mensaje, exito = true) {
   const toast = $("#toast-admin");
   if (!toast) return;
-  toast.textContent = mensaje;
-  toast.style.borderLeftColor = exito ? "var(--dorado)" : "var(--rojo)";
+  const icon = exito ? "✓" : "✕";
+  toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${mensaje}</span>`;
+  toast.style.borderLeftColor = exito ? "var(--verde)" : "var(--rojo)";
   toast.classList.add("activo");
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("activo"), 3200);
+  toastTimer = setTimeout(() => toast.classList.remove("activo"), 3500);
 }
 
 /* --------------------------- Auth ---------------------------------- */
@@ -63,9 +64,25 @@ function btnLoading(btn, cargando, textoOriginal = "") {
   if (cargando) {
     btn._textoOriginal = btn.textContent;
     btn.disabled = true;
-    btn.textContent = "Guardando...";
+    btn.innerHTML = `<span class="spinner"></span> Guardando...`;
   } else {
     btn.disabled = false;
-    btn.textContent = btn._textoOriginal || textoOriginal || btn.textContent;
+    btn.innerHTML = btn._textoOriginal || textoOriginal || btn.textContent;
   }
+}
+
+/* ------------------------ Helpers ---------------------------------- */
+function formatearFecha(isoString) {
+  const f = new Date(isoString);
+  return f.toLocaleDateString("es-CL", {
+    day: "2-digit", month: "2-digit",
+    hour: "2-digit", minute: "2-digit"
+  });
+}
+
+function obtenerGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return "Buenos días";
+  if (h < 18) return "Buenas tardes";
+  return "Buenas noches";
 }

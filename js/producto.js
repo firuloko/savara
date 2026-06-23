@@ -14,12 +14,31 @@
     toastTimer = setTimeout(() => toast.classList.remove("activo"), 3200);
   }
 
-  const estado = { color: null, talla: null };
+  const estado = { color: null, talla: null, producto: null };
+
+  /* Cambiar imagen del producto con fade */
+  function cambiarImagenColor(p, nombreColor) {
+    const color = p.colores.find(c => c.nombre === nombreColor);
+    const visual = $("#p-visual");
+    const nuevaUrl = color?.imagen_url;
+
+    if (!nuevaUrl) return;
+
+    visual.style.opacity = "0";
+    setTimeout(() => {
+      visual.style.backgroundImage = `url(${nuevaUrl})`;
+      visual.style.backgroundSize = "cover";
+      visual.style.backgroundPosition = "center";
+      visual.className = "producto-visual";
+      visual.style.opacity = "1";
+    }, 250);
+  }
 
   function renderProducto(p) {
     document.title = `SAVARA · ${p.nombre}`;
+    estado.producto = p;
 
-    /* Imagen */
+    /* Imagen principal */
     const visual = $("#p-visual");
     if (p.imagen_url) {
       visual.style.backgroundImage = `url(${p.imagen_url})`;
@@ -34,6 +53,13 @@
     $("#p-nombre").textContent     = p.nombre;
     $("#p-descripcion").textContent= p.descripcion;
     $("#p-precio").textContent     = formatearPrecio(p.precio);
+
+    /* Enlace "Volver" contextual */
+    const backLink = $(".producto-back");
+    if (backLink) {
+      backLink.href = `/#cap-${p.categoria}`;
+      backLink.textContent = `← Volver a ${ETIQUETAS[p.categoria]?.sing || "catálogo"}`;
+    }
 
     estado.color = p.colores[0]?.nombre || null;
     estado.talla = null;
@@ -54,6 +80,7 @@
         $$(".color-swatch", coloresBox).forEach(s =>
           s.classList.toggle("seleccionado", s === sw));
         $("#p-color-elegido").textContent = estado.color;
+        cambiarImagenColor(p, sw.dataset.color);
       })
     );
 

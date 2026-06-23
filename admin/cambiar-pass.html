@@ -37,24 +37,47 @@
         <h2>Cambiar Contraseña</h2>
       </div>
 
-      <form id="form-pass" class="admin-form" style="max-width:420px;">
-        <div class="admin-field">
-          <label for="pass-current">Contraseña actual</label>
-          <input type="password" id="pass-current" required autocomplete="current-password" />
-        </div>
-        <div class="admin-field">
-          <label for="pass-new">Nueva contraseña</label>
-          <input type="password" id="pass-new" required minlength="6" autocomplete="new-password" />
-        </div>
-        <div class="admin-field">
-          <label for="pass-confirm">Confirmar nueva contraseña</label>
-          <input type="password" id="pass-confirm" required minlength="6" autocomplete="new-password" />
-        </div>
-        <div class="admin-form-actions">
-          <button type="submit" class="btn-primary">CAMBIAR CONTRASEÑA</button>
-          <a href="/admin/dashboard.html" class="btn-ghost">Cancelar</a>
-        </div>
-      </form>
+      <div class="admin-card" style="max-width:520px;">
+        <form id="form-pass" class="admin-form">
+          <div class="admin-field">
+            <label for="pass-current">Contraseña actual</label>
+            <div class="input-wrap">
+              <input type="password" id="pass-current" required autocomplete="current-password" />
+              <button type="button" class="pass-toggle" data-toggle="pass-current" title="Mostrar contraseña" tabindex="-1">👁</button>
+            </div>
+          </div>
+
+          <div class="admin-field">
+            <label for="pass-new">Nueva contraseña</label>
+            <div class="input-wrap">
+              <input type="password" id="pass-new" required minlength="6" autocomplete="new-password" />
+              <button type="button" class="pass-toggle" data-toggle="pass-new" title="Mostrar contraseña" tabindex="-1">👁</button>
+            </div>
+            <div class="pass-strength" id="pass-strength">
+              <div class="pass-strength-bar">
+                <div class="pass-strength-fill" id="pass-strength-fill"></div>
+              </div>
+              <span class="pass-strength-text" id="pass-strength-text"></span>
+            </div>
+            <ul class="pass-requisitos">
+              <li id="req-length">✕ Mínimo 6 caracteres</li>
+            </ul>
+          </div>
+
+          <div class="admin-field">
+            <label for="pass-confirm">Confirmar nueva contraseña</label>
+            <div class="input-wrap">
+              <input type="password" id="pass-confirm" required minlength="6" autocomplete="new-password" />
+              <button type="button" class="pass-toggle" data-toggle="pass-confirm" title="Mostrar contraseña" tabindex="-1">👁</button>
+            </div>
+          </div>
+
+          <div class="admin-form-actions">
+            <button type="submit" class="btn-primary">CAMBIAR CONTRASEÑA</button>
+            <a href="/admin/dashboard.html" class="btn-ghost">Cancelar</a>
+          </div>
+        </form>
+      </div>
     </section>
   </div>
 

@@ -20,6 +20,13 @@ const JWT_SECRET = process.env.JWT_SECRET || 'savara_dev_secret';
 const DATA_DIR = process.env.DATA_DIR || __dirname;
 const DB_PATH = path.join(DATA_DIR, 'savara.db');
 
+/* Prefijos de categoría para IDs (sync con js/data.js) */
+const CAT_PREFIX = {
+  mujer: 'muj', hombre: 'hom',
+  nino: 'nin', nina: 'nna',
+  accesorios: 'acc'
+};
+
 /* --------------------------------------------------------------------------
    MIDDLEWARE
    -------------------------------------------------------------------------- */
@@ -141,9 +148,11 @@ function seedData() {
       { id: "hom-01", categoria: "hombre", nombre: "Zapatos Oxford Classic", descripcion: "Zapato formal de cuero sintético con costuras finas. El aliado indispensable para eventos y vestir formal.", precio: 24990, stock: "alta", imagen_id: "hombre-oxford", imagen_url: "", colores: JSON.stringify([{ nombre: "Café", hex: "#4b3621" }, { nombre: "Negro", hex: "#1a1a1a" }]), tallas: JSON.stringify(["38", "39", "40", "41", "42", "43"]) },
       { id: "hom-02", categoria: "hombre", nombre: "Zapatillas Urban North", descripcion: "Zapatilla casual de suela gruesa, diseñada para la ciudad. Resistente al agua y de muy fácil limpieza.", precio: 19990, stock: "media", imagen_id: "hombre-zapatillas", imagen_url: "", colores: JSON.stringify([{ nombre: "Grafito", hex: "#3a3a3a" }, { nombre: "Hueso", hex: "#F5F4F0" }]), tallas: JSON.stringify(["39", "40", "41", "42", "43", "44"]) },
       { id: "hom-03", categoria: "hombre", nombre: "Mocasines Verona", descripcion: "Mocasín flexible sin cordones, cómodo y elegante. Ideal para un look smart-casual en cualquier estación.", precio: 17990, stock: "baja", imagen_id: "hombre-mocasines", imagen_url: "", colores: JSON.stringify([{ nombre: "Coñac", hex: "#8b4513" }, { nombre: "Negro", hex: "#1a1a1a" }]), tallas: JSON.stringify(["39", "40", "41", "42", "43"]) },
-      { id: "inf-01", categoria: "infantil", nombre: "Zapatillas Estrellita", descripcion: "Zapatillas con cierre velcro y suela flexible. Diseño alegre y resistente para acompañar cada travesura.", precio: 9990, stock: "alta", imagen_id: "infantil-zapatillas", imagen_url: "", colores: JSON.stringify([{ nombre: "Celeste", hex: "#9ec5d8" }, { nombre: "Rosa", hex: "#f2b6b6" }]), tallas: JSON.stringify(["24", "25", "26", "27", "28"]) },
-      { id: "inf-02", categoria: "infantil", nombre: "Sandalias Aventura", descripcion: "Sandalias todo terreno con ajuste seguro. Perfectas para el parque, la piscina y el verano sin límites.", precio: 7990, stock: "media", imagen_id: "infantil-sandalias", imagen_url: "", colores: JSON.stringify([{ nombre: "Amarillo", hex: "#e8c547" }, { nombre: "Verde", hex: "#7a9a76" }]), tallas: JSON.stringify(["24", "25", "26", "27", "28", "29", "30"]) },
-      { id: "inf-03", categoria: "infantil", nombre: "Zapatos Colegial", descripcion: "Zapato escolar negro con suela reforzada. Cómodo para una jornada completa y con acabado impecable.", precio: 11990, stock: "alta", imagen_id: "infantil-colegial", imagen_url: "", colores: JSON.stringify([{ nombre: "Negro", hex: "#1a1a1a" }]), tallas: JSON.stringify(["28", "29", "30", "31", "32", "33", "34"]) },
+      { id: "nna-01", categoria: "nina", nombre: "Zapatillas Estrellita", descripcion: "Zapatillas con cierre velcro y suela flexible. Diseño alegre y resistente para acompañar cada aventura.", precio: 9990, stock: "alta", imagen_id: "infantil-zapatillas", imagen_url: "", colores: JSON.stringify([{ nombre: "Celeste", hex: "#9ec5d8" }, { nombre: "Rosa", hex: "#f2b6b6" }]), tallas: JSON.stringify(["24", "25", "26", "27", "28"]) },
+      { id: "nna-02", categoria: "nina", nombre: "Bailarinas Dulcinea", descripcion: "Bailarinas con lazo decorativo y suela acolchada. Dulces y cómodas para el día a día.", precio: 10990, stock: "alta", imagen_id: "infantil-sandalias", imagen_url: "", colores: JSON.stringify([{ nombre: "Blanco", hex: "#f4f1ea" }, { nombre: "Rosa", hex: "#f2b6b6" }]), tallas: JSON.stringify(["24", "25", "26", "27", "28", "29"]) },
+      { id: "nin-01", categoria: "nino", nombre: "Sandalias Aventura", descripcion: "Sandalias todo terreno con ajuste seguro. Perfectas para el parque, la piscina y el verano sin límites.", precio: 7990, stock: "media", imagen_id: "infantil-sandalias", imagen_url: "", colores: JSON.stringify([{ nombre: "Amarillo", hex: "#e8c547" }, { nombre: "Verde", hex: "#7a9a76" }]), tallas: JSON.stringify(["24", "25", "26", "27", "28", "29", "30"]) },
+      { id: "nin-02", categoria: "nino", nombre: "Zapatos Colegial", descripcion: "Zapato escolar negro con suela reforzada. Cómodo para una jornada completa y con acabado impecable.", precio: 11990, stock: "alta", imagen_id: "infantil-colegial", imagen_url: "", colores: JSON.stringify([{ nombre: "Negro", hex: "#1a1a1a" }]), tallas: JSON.stringify(["28", "29", "30", "31", "32", "33", "34"]) },
+      { id: "nin-03", categoria: "nino", nombre: "Botines Explorer", descripcion: "Botines resistentes con suela antideslizante. Ideales para jugar y explorar sin preocupaciones.", precio: 14990, stock: "baja", imagen_id: "infantil-zapatillas", imagen_url: "", colores: JSON.stringify([{ nombre: "Azul", hex: "#2c5f7c" }, { nombre: "Gris", hex: "#7a7a7a" }]), tallas: JSON.stringify(["26", "27", "28", "29", "30", "31"]) },
       { id: "acc-01", categoria: "accesorios", nombre: "Cartera Lilah", descripcion: "Cartera de tamaño medio con compartimentos internos. Detalles en herrajes dorados mate.", precio: 8990, stock: "alta", imagen_id: "accesorios-cartera", imagen_url: "", colores: JSON.stringify([{ nombre: "Negro", hex: "#1a1a1a" }, { nombre: "Camel", hex: "#c19a6b" }, { nombre: "Vino", hex: "#5e2129" }]), tallas: JSON.stringify(["Único"]) },
       { id: "acc-02", categoria: "accesorios", nombre: "Bolsos Tote Lyon", descripcion: "Bolso tote amplio y ligero, perfecto para el día a día. Apto para llevar todo lo imprescindible con estilo.", precio: 13990, stock: "media", imagen_id: "accesorios-bolso", imagen_url: "", colores: JSON.stringify([{ nombre: "Hueso", hex: "#F5F4F0" }, { nombre: "Negro", hex: "#1a1a1a" }]), tallas: JSON.stringify(["Único"]) },
       { id: "acc-03", categoria: "accesorios", nombre: "Mascadas Cordoba", descripcion: "Mascada de textura suave y caída elegante. Un toque de color que completa cualquier look.", precio: 5990, stock: "baja", imagen_id: "accesorios-mascada", imagen_url: "", colores: JSON.stringify([{ nombre: "Mostaza", hex: "#D4AF37" }, { nombre: "Borgoña", hex: "#5e2129" }, { nombre: "Verde oliva", hex: "#556b2f" }]), tallas: JSON.stringify(["Único"]) }
@@ -177,6 +186,11 @@ function seedData() {
       ['color_tinta', '#2b2b2b'],
       ['color_tinta_suave', '#6b6b66'],
       ['color_linea', '#d8d3c7'],
+      ['frase_mujer', 'Elegancia y estilo que realzan tu femineidad. Descubre la colección pensada para ella.'],
+      ['frase_hombre', 'Para el hombre moderno que valora la calidad sin pagar de más.'],
+      ['frase_nino', 'Aventura y comodidad para los más pequeños de la casa.'],
+      ['frase_nina', 'Dulzura y color en cada paso. Calzado diseñado para soñar.'],
+      ['frase_accesorios', 'El detalle que completa tu look. Complementos con personalidad.'],
       ['seccion_about_titulo', 'Te esperamos en SAVARA'],
       ['seccion_about_texto', 'Todos los productos de este mostrario están disponibles para compra presencial. Reserva tu talla por mensaje y retírala cuando quieras.'],
       ['social_instagram', 'https://instagram.com/savara_oficial'],
@@ -187,6 +201,24 @@ function seedData() {
     for (const [clave, valor] of defaults) {
       run('INSERT INTO pagina (clave, valor) VALUES (?, ?)', [clave, valor]);
     }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MIGRACIÓN: categoría "infantil" → "nino" / "nina"
+   -------------------------------------------------------------------------- */
+function migrarInfantiles() {
+  const old = query("SELECT * FROM productos WHERE categoria = 'infantil'");
+  for (const p of old) {
+    const nombre = p.nombre.toLowerCase();
+    const newCat = (nombre.includes('estrellita') || nombre.includes('dulcinea') || nombre.includes('bailarina')) ? 'nina' : 'nino';
+    const prefix = CAT_PREFIX[newCat];
+    const nums = query('SELECT id FROM productos WHERE id LIKE ?', [`${prefix}-%`])
+      .map(r => { const n = parseInt(r.id.split('-')[1], 10); return isNaN(n) ? 0 : n; });
+    const newNum = String((nums.length > 0 ? Math.max(...nums) : 0) + 1).padStart(2, '0');
+    const newId = `${prefix}-${newNum}`;
+    run('UPDATE productos SET categoria = ?, id = ? WHERE id = ?', [newCat, newId, p.id]);
+    console.log(`Migrado: ${p.id} → ${newId} (${newCat})`);
   }
 }
 
@@ -310,7 +342,7 @@ app.delete('/api/productos/:id', authMiddleware, (req, res) => {
 app.post('/api/productos/duplicar/:id', authMiddleware, (req, res) => {
   const original = queryOne('SELECT * FROM productos WHERE id = ?', [req.params.id]);
   if (!original) return res.status(404).json({ error: 'Producto no encontrado' });
-  const prefix = original.categoria.substring(0, 3);
+  const prefix = CAT_PREFIX[original.categoria] || original.categoria.substring(0, 3);
   const nums = query('SELECT id FROM productos WHERE id LIKE ?', [`${prefix}-%`])
     .map(r => { const n = parseInt(r.id.split('-')[1], 10); return isNaN(n) ? 0 : n; });
   const newNum = String((nums.length > 0 ? Math.max(...nums) : 0) + 1).padStart(2, '0');
@@ -496,6 +528,7 @@ app.use((req, res) => {
 async function start() {
   await initDB();
   seedData();
+  migrarInfantiles();
   const uploadsDir = path.join(DATA_DIR, 'uploads');
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });

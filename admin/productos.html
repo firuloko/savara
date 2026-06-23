@@ -16,11 +16,11 @@
       gap: 12px;
       align-items: center;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .productos-toolbar input {
       flex: 1;
-      min-width: 200px;
+      min-width: 180px;
       font-family: var(--sans);
       font-size: 14px;
       padding: 10px 14px;
@@ -32,8 +32,18 @@
       outline: none;
       border-color: var(--dorado);
     }
-    .productos-toolbar .btn-ghost {
-      font-size: 11px;
+    .productos-toolbar select {
+      font-family: var(--sans);
+      font-size: 13px;
+      padding: 10px 14px;
+      border: 1px solid var(--linea);
+      background: var(--marfil);
+      color: var(--tinta);
+      min-width: 140px;
+    }
+    .productos-toolbar select:focus {
+      outline: none;
+      border-color: var(--dorado);
     }
   </style>
 </head>
@@ -64,17 +74,25 @@
         <a href="/admin/producto.html" class="btn-primary">+ AGREGAR PRODUCTO</a>
       </div>
 
-      <div class="productos-toolbar">
-        <input type="text" id="buscar-producto" placeholder="Buscar por nombre o ID..." />
-        <button class="btn-ghost" id="btn-exportar">EXPORTAR JSON</button>
-        <button class="btn-ghost" id="btn-importar">IMPORTAR JSON</button>
-        <input type="file" id="file-importar" accept=".json" style="display:none" />
+      <div class="admin-card" style="padding:20px 24px;">
+        <div class="productos-toolbar">
+          <input type="text" id="buscar-producto" placeholder="Buscar por nombre o ID..." />
+          <select id="filtro-categoria">
+            <option value="">Todas las categorías</option>
+          </select>
+          <button class="btn-ghost" id="btn-exportar">EXPORTAR JSON</button>
+          <button class="btn-ghost" id="btn-importar">IMPORTAR JSON</button>
+          <input type="file" id="file-importar" accept=".json" style="display:none" />
+        </div>
       </div>
+
+      <p class="table-summary" id="table-summary">Cargando productos...</p>
 
       <div class="admin-table-wrap">
         <table class="admin-table" id="tabla-productos">
           <thead>
             <tr>
+              <th style="width:44px;"></th>
               <th>ID</th>
               <th>Nombre</th>
               <th>Categoría</th>
@@ -88,7 +106,11 @@
           <tbody id="tbody-productos"></tbody>
         </table>
       </div>
-      <p class="admin-empty" id="empty-productos" hidden>No hay productos. Agrega el primero.</p>
+      <p class="admin-empty" id="empty-productos" hidden>
+        <span class="admin-empty-icon">📭</span>
+        No hay productos
+        <span class="admin-empty-sub">Agrega el primer producto para comenzar.</span>
+      </p>
     </section>
   </div>
 

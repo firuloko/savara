@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SAVARA · Calzado y Accesorios Low-Cost</title>
-  <meta name="description" content="SAVARA — Mostrario digital de calzado y accesorios. Consulta disponibilidad en nuestra tienda física." />
+  <title>SAVARA · Categoría</title>
+  <meta name="description" content="SAVARA — Explora todos los productos de una categoría." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +20,7 @@
     <div class="header-inner">
       <nav class="nav nav-left" id="nav-left" aria-label="Navegación principal"></nav>
 
-      <a href="#" class="logo" id="logo">
+      <a href="index.html" class="logo" id="logo">
         <span class="logo-main">SAVARA</span>
         <span class="logo-sub">CALZADO &amp; ACCESORIOS</span>
       </a>
@@ -33,20 +33,19 @@
     <div class="header-line"></div>
   </header>
 
-  <!-- ============================= HERO ============================= -->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <p class="hero-eyebrow" id="hero-eyebrow">Nueva Colección · 2026</p>
-      <h1 class="hero-title" id="hero-title">Elegancia que cabe<br />en tu presupuesto</h1>
-      <p class="hero-subtitle" id="hero-subtitle">Un mostrario digital para descubrir tu próximo par favorito.
-        Explora la colección y reserva tu retiro en tienda.</p>
-      <button class="btn-primary" id="hero-cta">VER CATÁLOGO</button>
-    </div>
-    <div class="hero-note" id="hero-nota">Mostrario digital · Las compras se realizan presencialmente en tienda</div>
-  </section>
-
-  <!-- ===================== REVISTA (secciones generadas por JS) ======================= -->
-  <main id="revista"></main>
+  <!-- ==================== CATEGORÍA (todos los productos) ==================== -->
+  <main class="categoria-page">
+    <section class="capitulo" id="cap-categoria">
+      <div class="cap-cover">
+        <span class="cap-numero" id="cat-numero"></span>
+        <h2 class="cap-titulo" id="cat-titulo"></h2>
+        <p class="cap-frase" id="cat-frase"></p>
+      </div>
+      <a href="index.html" class="categoria-back">← Volver a la revista</a>
+      <div class="grid-productos" id="cat-grid"></div>
+      <p class="catalogo-empty" id="cat-empty" hidden>No hay productos en esta categoría.</p>
+    </section>
+  </main>
 
   <!-- ========================= INFO TIENDA ========================= -->
   <section class="info-tienda">
@@ -82,11 +81,11 @@
       <div class="footer-cols">
         <div>
           <h4>COLECCIONES</h4>
-          <button class="footer-link" data-scroll="#cap-mujer">Mujer</button>
-          <button class="footer-link" data-scroll="#cap-hombre">Hombre</button>
-          <button class="footer-link" data-scroll="#cap-nino">Niño</button>
-          <button class="footer-link" data-scroll="#cap-nina">Niña</button>
-          <button class="footer-link" data-scroll="#cap-accesorios">Accesorios</button>
+          <a class="footer-link" href="index.html#cap-mujer">Mujer</a>
+          <a class="footer-link" href="index.html#cap-hombre">Hombre</a>
+          <a class="footer-link" href="index.html#cap-nino">Niño</a>
+          <a class="footer-link" href="index.html#cap-nina">Niña</a>
+          <a class="footer-link" href="index.html#cap-accesorios">Accesorios</a>
         </div>
         <div>
           <h4>TIENDA</h4>
@@ -108,6 +107,6 @@
   </footer>
 
   <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/categoria.js"></script>
 </body>
 </html>

@@ -130,9 +130,20 @@ ul { list-style: none; }
 .nav-mobile {
   display: none;
   padding: 0 16px 14px;
-  gap: 0;
-  justify-content: space-around;
+  gap: 4px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   border-bottom: 1px solid var(--linea);
+}
+.nav-mobile::-webkit-scrollbar { display: none; }
+.nav-mobile .nav-link {
+  white-space: nowrap;
+  padding: 8px 14px;
+  font-size: 11px;
+  flex-shrink: 0;
 }
 
 .header-line {
@@ -308,6 +319,58 @@ ul { list-style: none; }
 .cat-hombre    { background: linear-gradient(160deg, #6f6f6e, #3a3a3a 70%); }
 .cat-infantil  { background: linear-gradient(160deg, #fce6cf, #f4b6a0 50%, #e89aae); }
 .cat-accesorios{ background: linear-gradient(160deg, #e6d18a, #d4af37 60%, #a07d1f); }
+
+/* ===================== REVISTA — SECCIONES CAPÍTULO ===================== */
+#revista { max-width: var(--max); margin: 0 auto; }
+
+.capitulo {
+  padding: 100px 24px 60px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.capitulo.visible { opacity: 1; transform: translateY(0); }
+
+.cap-cover {
+  text-align: center;
+  padding: 60px 40px 50px;
+  margin-bottom: 50px;
+  border-bottom: 1px solid var(--linea);
+}
+
+.cap-numero {
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0.4em;
+  color: var(--dorado);
+  font-weight: 500;
+}
+
+.cap-titulo {
+  font-family: var(--serif);
+  font-size: clamp(48px, 7vw, 72px);
+  font-weight: 500;
+  line-height: 1;
+  margin: 16px 0 20px;
+  letter-spacing: -0.01em;
+}
+
+.cap-frase {
+  color: var(--tinta-suave);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 300;
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Background sutil por categoría */
+.capitulo[data-categoria="mujer"]      .cap-cover { background: rgba(245,240,235,0.5); }
+.capitulo[data-categoria="hombre"]     .cap-cover { background: rgba(240,238,232,0.5); }
+.capitulo[data-categoria="nino"]       .cap-cover { background: rgba(240,245,235,0.5); }
+.capitulo[data-categoria="nina"]       .cap-cover { background: rgba(245,235,240,0.5); }
+.capitulo[data-categoria="accesorios"] .cap-cover { background: rgba(245,240,224,0.5); }
 
 /* ========================== CATÁLOGO =============================== */
 .catalogo { max-width: var(--max); margin: 0 auto; padding: 70px 24px 30px; }
@@ -756,6 +819,35 @@ ul { list-style: none; }
 }
 .toast.activo { transform: translateX(-50%) translateY(0); }
 
+/* ===================== Página individual de categoría ============= */
+.categoria-page .capitulo {
+  padding-top: 80px;
+}
+.categoria-back {
+  display: inline-block;
+  margin-bottom: 40px;
+  font-size: 14px;
+  color: var(--tinta-suave);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color .2s ease;
+}
+.categoria-back:hover { color: var(--dorado); }
+
+/* ===================== Ver todo (enlace por sección) ============== */
+.ver-todo {
+  display: block;
+  text-align: center;
+  margin-top: 36px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--tinta);
+  text-decoration: none;
+  transition: color .2s ease;
+  cursor: pointer;
+}
+.ver-todo:hover { color: var(--dorado); }
+
 /* ========================== RESPONSIVE ============================= */
 @media (max-width: 900px) {
   .header-inner { grid-template-columns: 1fr; padding: 18px 24px; gap: 0; }
@@ -765,6 +857,9 @@ ul { list-style: none; }
 
   .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .grid-productos { grid-template-columns: repeat(2, 1fr); gap: 36px 20px; }
+  .capitulo { padding: 60px 16px 40px; }
+  .cap-cover { padding: 40px 20px 36px; margin-bottom: 36px; }
+  .cap-titulo { font-size: clamp(36px, 6vw, 52px); }
 
   .info-tienda-inner { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
   .footer-inner { grid-template-columns: 1fr; }
@@ -781,7 +876,21 @@ ul { list-style: none; }
   .cat-grid { grid-template-columns: 1fr; }
   .footer-cols { grid-template-columns: 1fr; }
   .catalogo-head { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .hero { min-height: 70vh; padding: 70px 20px 50px; }
+  .hero { min-height: auto; padding: 60px 20px 40px; }
+  .hero-eyebrow { font-size: 10px; margin-bottom: 14px; }
+  .hero-title { font-size: clamp(28px, 7vw, 38px); margin-bottom: 16px; }
+  .hero-subtitle { font-size: 14px; margin-bottom: 28px; }
+  .hero-note { position: static; margin-top: 24px; font-size: 9px; }
+  .capitulo { padding: 40px 12px 30px; }
+  .cap-cover { padding: 30px 16px 28px; margin-bottom: 28px; }
+  .cap-titulo { font-size: clamp(28px, 8vw, 36px); }
+  .cap-frase { font-size: 16px; }
+  .tarjeta-nombre { font-size: 18px; }
+  .tarjeta-precio { font-size: 13px; }
+  .tarjeta-visual { aspect-ratio: 1 / 1.3; }
+  .tarjeta-stock { font-size: 8px; padding: 4px 8px; }
+  .categoria-back { font-size: 12px; margin-bottom: 24px; }
+  .ver-todo { font-size: 16px; margin-top: 24px; }
 }
 
 /* ===================== Helpers visuales tarjetas ===================== */

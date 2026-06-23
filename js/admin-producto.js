@@ -1,6 +1,3 @@
-/* ==========================================================================
-   SAVARA · Producto — crear / editar con preview en vivo
-   ========================================================================== */
 (function () {
   "use strict";
 
@@ -47,16 +44,68 @@
     }
   }
 
-  function agregarFilaColor(hex, nombre) {
+  /* ================================================================
+     FILA DE COLOR CON IMAGEN
+     ================================================================ */
+  function agregarFilaColor(hex, nombre, imagenUrl) {
     const cont = $("#fp-colores-container");
     const div = document.createElement("div");
     div.className = "fp-color-row";
     div.innerHTML = `
       <input type="color" class="fp-color-hex" value="${hex || "#1a1a1a"}" />
       <input type="text" class="fp-color-nombre" placeholder="Nombre color" value="${nombre || ""}" />
+      <div class="fp-color-img">
+        <input type="file" class="fp-color-img-file" accept="image/*" hidden />
+        <button type="button" class="fp-color-img-btn" title="Imagen para este color">+</button>
+        <div class="fp-color-img-preview" style="${imagenUrl ? `background-image:url(${imagenUrl})` : ""}">
+          <span class="fp-color-img-remove">&times;</span>
+        </div>
+        <input type="hidden" class="fp-color-img-url" value="${imagenUrl || ""}" />
+      </div>
       <button type="button" class="fp-remove-row" title="Quitar color">&times;</button>
     `;
     cont.appendChild(div);
+
+    const btnImg = div.querySelector(".fp-color-img-btn");
+    const fileInput = div.querySelector(".fp-color-img-file");
+    const preview = div.querySelector(".fp-color-img-preview");
+    const imgRemove = div.querySelector(".fp-color-img-remove");
+    const urlHidden = div.querySelector(".fp-color-img-url");
+
+    if (imagenUrl) {
+      btnImg.classList.add("tiene-imagen");
+      btnImg.textContent = "✎";
+    }
+
+    /* Botón imagen → abrir file picker */
+    btnImg.addEventListener("click", () => fileInput.click());
+
+    /* Archivo seleccionado → preview local */
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          preview.style.backgroundImage = `url(${ev.target.result})`;
+          btnImg.classList.add("tiene-imagen");
+          btnImg.textContent = "✎";
+          urlHidden.value = ""; /* se reemplazará al guardar */
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    /* Quitar imagen asociada */
+    imgRemove.addEventListener("click", (e) => {
+      e.stopPropagation();
+      preview.style.backgroundImage = "";
+      btnImg.classList.remove("tiene-imagen");
+      btnImg.textContent = "+";
+      fileInput.value = "";
+      urlHidden.value = "";
+    });
+
+    /* Quitar fila completa */
     div.querySelector(".fp-remove-row").addEventListener("click", () => div.remove());
   }
 
@@ -73,7 +122,7 @@
   }
 
   function generarId(categoria) {
-    const prefix = categoria.substring(0, 3);
+    const prefix = CAT_PREFIX[categoria] || categoria.substring(0, 3);
     const existentes = PRODUCTOS
       .filter(p => p.id.startsWith(prefix))
       .map(p => {
@@ -86,6 +135,9 @@
     return `${prefix}-${num}`;
   }
 
+  /* ================================================================
+     GUARDAR: sube imágenes de colores + producto
+     ================================================================ */
   async function guardarProducto(e) {
     e.preventDefault();
 
@@ -95,10 +147,48 @@
     const categoria = $("#fp-categoria").value;
     const id = editId || generarId(categoria);
 
-    const colores = $$(".fp-color-row").map(row => ({
-      nombre: row.querySelector(".fp-color-nombre").value.trim(),
-      hex: row.querySelector(".fp-color-hex").value
-    })).filter(c => c.nombre);
+    /* Subir imagen principal si hay archivo nuevo */
+    const fileInput = $("#fp-imagen-file");
+    let imagen_url = $("#fp-imagen-url").value.trim();
+    if (fileInput.files.length > 0) {
+      try {
+        imagen_url = await subirImagen(fileInput.files[0]);
+      } catch (err) {
+        mostrarToast("Error al subir imagen principal: " + err.message, false);
+        btnLoading(btn, false);
+        return;
+      }
+    }
+
+    /* Subir imágenes de colores y armar array */
+    const filasColor = $$(".fp-color-row");
+    const colores = [];
+
+    for (const row of filasColor) {
+      const nombre = row.querySelector(".fp-color-nombre").value.trim();
+      if (!nombre) continue;
+
+      const hex = row.querySelector(".fp-color-hex").value;
+      const fileInputColor = row.querySelector(".fp-color-img-file");
+      const urlHidden = row.querySelector(".fp-color-img-url");
+      let imagenUrlColor = urlHidden.value;
+
+      if (fileInputColor.files.length > 0) {
+        try {
+          imagenUrlColor = await subirImagen(fileInputColor.files[0]);
+        } catch (err) {
+          mostrarToast(`Error al subir imagen para "${nombre}": ${err.message}`, false);
+          btnLoading(btn, false);
+          return;
+        }
+      }
+
+      colores.push({
+        nombre,
+        hex,
+        ...(imagenUrlColor ? { imagen_url: imagenUrlColor } : {})
+      });
+    }
 
     const tallas = $$(".fp-talla-row").map(row =>
       row.querySelector(".fp-talla-valor").value.trim()
@@ -113,18 +203,6 @@
       mostrarToast("Agrega al menos una talla", false);
       btnLoading(btn, false);
       return;
-    }
-
-    const fileInput = $("#fp-imagen-file");
-    let imagen_url = $("#fp-imagen-url").value.trim();
-    if (fileInput.files.length > 0) {
-      try {
-        imagen_url = await subirImagen(fileInput.files[0]);
-      } catch (e) {
-        mostrarToast("Error al subir imagen: " + e.message, false);
-        btnLoading(btn, false);
-        return;
-      }
     }
 
     const producto = {
@@ -149,8 +227,8 @@
         mostrarToast("Producto creado");
       }
       window.location.href = "/admin/productos.html";
-    } catch (e) {
-      mostrarToast("Error al guardar: " + e.message, false);
+    } catch (err) {
+      mostrarToast("Error al guardar: " + err.message, false);
       btnLoading(btn, false);
     }
   }
@@ -185,7 +263,7 @@
       $("#fp-imagen-id").value = p.imagen_id || "";
       $("#fp-imagen-url").value = p.imagen_url || "";
 
-      p.colores.forEach(c => agregarFilaColor(c.hex, c.nombre));
+      p.colores.forEach(c => agregarFilaColor(c.hex, c.nombre, c.imagen_url));
       p.tallas.forEach(t => agregarFilaTalla(t));
 
       if (p.imagen_url) actualizarPreview(p.imagen_url);
@@ -193,6 +271,7 @@
       $("#form-titulo").textContent = "Nuevo Producto";
       $("#bc-actual").textContent = "Nuevo Producto";
       document.title = "SAVARA · Nuevo Producto";
+      agregarFilaColor("#1a1a1a", "");
     }
 
     actualizarPreviewCard();
@@ -211,7 +290,6 @@
         const reader = new FileReader();
         reader.onload = (ev) => {
           actualizarPreview(ev.target.result);
-          /* también actualizar preview card con el data URL temporal */
           const visual = $("#preview-visual");
           visual.style.backgroundImage = `url(${ev.target.result})`;
           visual.style.backgroundSize = "cover";

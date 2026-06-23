@@ -12,15 +12,27 @@ const STOCK_INFO = {
   baja:  { badge: "AGOTADO",      mensaje: "Agotado en tienda por ahora" }
 };
 
-/* --------------------- Etiquetas de categorías ------------------------ */
-const ETIQUETAS = {
-  mujer:      { sing: "Mujer",      eyebrown: "COLECCIÓN MUJER" },
-  hombre:     { sing: "Hombre",     eyebrown: "COLECCIÓN HOMBRE" },
-  infantil:   { sing: "Infantil",   eyebrown: "COLECCIÓN INFANTIL" },
-  accesorios: { sing: "Accesorios", eyebrown: "ACCESORIOS" }
-};
+/* --------------------- Configuración de categorías ------------------------ */
+/* Fuente única de verdad: agregar/modificar una categoría se hace aquí */
+const CATEGORIAS_CONFIG = [
+  { id: 'mujer',      prefix: 'muj', label: 'Mujer',     labels: 'Mujer',       eyebrown: 'COLECCIÓN MUJER',  numero: '01' },
+  { id: 'hombre',     prefix: 'hom', label: 'Hombre',    labels: 'Hombre',      eyebrown: 'COLECCIÓN HOMBRE', numero: '02' },
+  { id: 'nino',       prefix: 'nin', label: 'Niño',      labels: 'Niño',        eyebrown: 'COLECCIÓN NIÑO',   numero: '03' },
+  { id: 'nina',       prefix: 'nna', label: 'Niña',      labels: 'Niña',        eyebrown: 'COLECCIÓN NIÑA',   numero: '04' },
+  { id: 'accesorios', prefix: 'acc', label: 'Accesorio', labels: 'Accesorios', eyebrown: 'ACCESORIOS',       numero: '05' },
+];
 
-const CATEGORIAS = Object.keys(ETIQUETAS);
+const ETIQUETAS = Object.fromEntries(
+  CATEGORIAS_CONFIG.map(c => [c.id, { sing: c.label, eyebrown: c.eyebrown }])
+);
+
+const CAT_PREFIX = Object.fromEntries(
+  CATEGORIAS_CONFIG.map(c => [c.id, c.prefix])
+);
+
+const CATEGORIAS = CATEGORIAS_CONFIG.map(c => c.id);
+
+const PRODUCTOS_POR_SECCION = 8;
 
 /* ====================================================================
    VARIABLES GLOBALES (se cargan con cargarDatos)

@@ -18,7 +18,7 @@
       align-items: start;
     }
     .preview-card {
-      background: var(--marfil);
+      background: #fff;
       border: 1px solid var(--linea);
       padding: 24px;
       position: sticky;
@@ -72,6 +72,13 @@
     .breadcrumb span {
       color: var(--tinta);
     }
+    .shortcut-hint {
+      font-size: 10px;
+      color: var(--tinta-suave);
+      letter-spacing: 0.05em;
+      text-align: right;
+      margin-top: 12px;
+    }
     @media (max-width: 900px) {
       .producto-layout { grid-template-columns: 1fr; }
       .preview-card { position: static; }
@@ -101,7 +108,7 @@
 
     <section class="admin-section">
       <div class="breadcrumb" id="breadcrumb">
-        <a href="/admin/productos.html">Productos</a> &rsaquo; <span id="bc-actual">Nuevo Producto</span>
+        <a href="/admin/productos.html">Productos</a> › <span id="bc-actual">Nuevo Producto</span>
       </div>
 
       <div class="admin-section-head" style="padding-bottom:12px;">
@@ -112,88 +119,106 @@
         <form id="form-producto" class="admin-form" style="max-width:100%;">
           <input type="hidden" id="fp-id" />
 
-          <div class="admin-field">
-            <label for="fp-nombre">Nombre del producto</label>
-            <input type="text" id="fp-nombre" required />
-          </div>
-
-          <div class="admin-field">
-            <label for="fp-categoria">Categoría</label>
-            <select id="fp-categoria" required>
-              <option value="mujer">Mujer</option>
-              <option value="hombre">Hombre</option>
-              <option value="infantil">Infantil</option>
-              <option value="accesorios">Accesorios</option>
-            </select>
-          </div>
-
-          <div class="admin-field">
-            <label for="fp-descripcion">Descripción</label>
-            <textarea id="fp-descripcion" rows="3" required></textarea>
-          </div>
-
-          <div class="admin-field">
-            <label for="fp-precio">Precio ($)</label>
-            <input type="number" id="fp-precio" min="0" required />
-          </div>
-
-          <div class="admin-field">
-            <label for="fp-stock">Stock</label>
-            <select id="fp-stock" required>
-              <option value="alta">Disponible</option>
-              <option value="media">Pocas unidades</option>
-              <option value="baja">Agotado</option>
-            </select>
-          </div>
-
-          <div class="admin-field">
-            <label for="fp-imagen-id">ID de gradiente (opcional)</label>
-            <input type="text" id="fp-imagen-id" placeholder="ej: mujer-tacones" />
-          </div>
-
-          <div style="border-top:1px solid var(--linea);padding-top:16px;">
-            <h3 style="font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:12px;">Imagen del producto</h3>
-
-            <div class="admin-field" style="margin-bottom:12px;">
-              <label for="fp-imagen-file">Subir imagen</label>
-              <input type="file" id="fp-imagen-file" accept="image/*" />
+          <!-- Card: Información básica -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3>Información básica</h3>
             </div>
-
-            <div class="admin-field" style="margin-bottom:12px;">
-              <label for="fp-imagen-url">O usar URL externa</label>
-              <input type="url" id="fp-imagen-url" placeholder="https://ejemplo.com/imagen.jpg" />
-            </div>
-
-            <div id="fp-imagen-preview"></div>
-          </div>
-
-          <div style="border-top:1px solid var(--linea);padding-top:16px;">
-            <h3 style="font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:12px;">Colores</h3>
-            <div id="fp-colores-container">
-              <div class="fp-color-row">
-                <input type="color" class="fp-color-hex" value="#1a1a1a" />
-                <input type="text" class="fp-color-nombre" placeholder="Nombre color" />
-                <button type="button" class="fp-remove-row" title="Quitar color">&times;</button>
+            <div class="admin-form-grid">
+              <div class="admin-field">
+                <label for="fp-nombre">Nombre del producto</label>
+                <span class="field-hint">Un nombre descriptivo y corto.</span>
+                <input type="text" id="fp-nombre" required />
+              </div>
+              <div class="admin-field">
+                <label for="fp-categoria">Categoría</label>
+                <span class="field-hint">¿A qué colección pertenece?</span>
+                <select id="fp-categoria" required>
+                  <option value="mujer">Mujer</option>
+                  <option value="hombre">Hombre</option>
+                  <option value="nino">Niño</option>
+                  <option value="nina">Niña</option>
+                  <option value="accesorios">Accesorios</option>
+                </select>
+              </div>
+              <div class="admin-field full">
+                <label for="fp-descripcion">Descripción</label>
+                <span class="field-hint">Describe el producto: material, uso, estilo.</span>
+                <textarea id="fp-descripcion" rows="3" required></textarea>
+              </div>
+              <div class="admin-field">
+                <label for="fp-precio">Precio ($)</label>
+                <span class="field-hint">En pesos chilenos.</span>
+                <input type="number" id="fp-precio" min="0" required />
+              </div>
+              <div class="admin-field">
+                <label for="fp-stock">Stock</label>
+                <span class="field-hint">Disponibilidad actual en tienda.</span>
+                <select id="fp-stock" required>
+                  <option value="alta">Disponible</option>
+                  <option value="media">Pocas unidades</option>
+                  <option value="baja">Agotado</option>
+                </select>
               </div>
             </div>
+          </div>
+
+          <!-- Card: Imagen principal -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3>Imagen principal</h3>
+            </div>
+            <div class="admin-form-grid">
+              <div class="admin-field">
+                <label for="fp-imagen-file">Subir imagen</label>
+                <span class="field-hint">JPG, PNG o WebP. Máximo 10 MB.</span>
+                <input type="file" id="fp-imagen-file" accept="image/*" />
+              </div>
+              <div class="admin-field">
+                <label for="fp-imagen-url">O usar URL externa</label>
+                <span class="field-hint">Si la imagen ya está alojada en línea.</span>
+                <input type="url" id="fp-imagen-url" placeholder="https://ejemplo.com/imagen.jpg" />
+              </div>
+              <div class="admin-field full">
+                <div id="fp-imagen-preview"></div>
+              </div>
+              <div class="admin-field">
+                <label for="fp-imagen-id">ID de gradiente (opcional)</label>
+                <span class="field-hint">Usar fondo decorativo si no hay imagen.</span>
+                <input type="text" id="fp-imagen-id" placeholder="ej: mujer-tacones" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Card: Colores -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3>Colores</h3>
+            </div>
+            <p style="font-size:12px;color:var(--tinta-suave);margin-bottom:12px;">
+              Cada color puede tener su propia imagen (opcional). Al seleccionar el color en la tienda, se mostrará su imagen correspondiente.
+            </p>
+            <div id="fp-colores-container"></div>
             <button type="button" class="btn-ghost" id="fp-add-color" style="margin-top:8px;">+ Agregar color</button>
           </div>
 
-          <div style="border-top:1px solid var(--linea);padding-top:16px;">
-            <h3 style="font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:12px;">Tallas</h3>
-            <div id="fp-tallas-container">
-              <div class="fp-talla-row">
-                <input type="text" class="fp-talla-valor" placeholder="ej: 38" />
-                <button type="button" class="fp-remove-row" title="Quitar talla">&times;</button>
-              </div>
+          <!-- Card: Tallas -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <h3>Tallas</h3>
             </div>
+            <p style="font-size:12px;color:var(--tinta-suave);margin-bottom:12px;">
+              Agrega las tallas disponibles. Para accesorios, usa "Único".
+            </p>
+            <div id="fp-tallas-container"></div>
             <button type="button" class="btn-ghost" id="fp-add-talla" style="margin-top:8px;">+ Agregar talla</button>
           </div>
 
-          <div class="admin-form-actions" style="margin-top:24px;">
+          <div class="admin-form-actions" style="margin-top:8px;">
             <a href="/admin/productos.html" class="btn-ghost">Cancelar</a>
             <button type="submit" class="btn-primary" id="btn-guardar">GUARDAR PRODUCTO</button>
           </div>
+          <p class="shortcut-hint">💡 Presiona Ctrl+S para guardar rápido</p>
         </form>
 
         <div class="preview-card">
